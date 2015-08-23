@@ -11,106 +11,102 @@ package Tree;
  */
 public class Nodo {
 
-    private boolean Value;
-    private Nodo primerHijo;
-    private Nodo segundoHijo;
-    private Nodo tercerHijo;
-    private Nodo cuartoHijo;
+    private boolean value;
+    private Nodo cuadrante1;
+    private Nodo cuadrante2;
+    private Nodo cuadrante3;
+    private Nodo cuadrante4;
 
     public Nodo() {
-        this.Value = false;
-        this.primerHijo = null;
-        this.segundoHijo = null;
-        this.tercerHijo = null;
-        this.cuartoHijo = null;
+        this.value = false;
+        this.cuadrante1 = null;
+        this.cuadrante2 = null;
+        this.cuadrante3 = null;
+        this.cuadrante4 = null;
     }
 
-    public Nodo(boolean Value) {
-        this.Value = Value;
-        this.primerHijo = null;
-        this.segundoHijo = null;
-        this.tercerHijo = null;
-        this.cuartoHijo = null;
-    }
-
-    public Nodo(boolean Value, Nodo primerHijo, Nodo segundoHijo, Nodo tercerHijo, Nodo cuartoHijo) {
-        this.Value = Value;
-        this.primerHijo = primerHijo;
-        this.segundoHijo = segundoHijo;
-        this.tercerHijo = tercerHijo;
-        this.cuartoHijo = cuartoHijo;
+    public Nodo(Nodo primerHijo, Nodo segundoHijo, Nodo tercerHijo, Nodo cuartoHijo) {
+        this.value = true;
+        this.cuadrante1 = primerHijo;
+        this.cuadrante2 = segundoHijo;
+        this.cuadrante3 = tercerHijo;
+        this.cuadrante4 = cuartoHijo;
     }
 
     public boolean isValue() {
-        return Value;
+        return value;
     }
 
     public void setValue(boolean Value) {
-        this.Value = Value;
+        this.value = Value;
     }
 
-    public boolean hasPrimerHijo() {
-        if (primerHijo != null) {
+    public boolean hasCuadrante1() {
+        if (cuadrante1 != null) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void primerHijo(Nodo primerHijo) {
-        this.primerHijo = primerHijo;
-    }
-
-    public boolean hasSegundoHijo() {
-        if (segundoHijo != null) {
+    public boolean hasCuadrante2() {
+        if (cuadrante2 != null) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void segundoHijo(Nodo segundoHijo) {
-        this.segundoHijo = segundoHijo;
-    }
-
-    public boolean hasTercerHijo() {
-        if (tercerHijo != null) {
+    public boolean hasCuadrante3() {
+        if (cuadrante3 != null) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void tercerHijo(Nodo tercerHijo) {
-        this.tercerHijo = tercerHijo;
-    }
-
-    public boolean hasCuartoHijo() {
-        if (cuartoHijo != null) {
+    public boolean hasCuadrante4() {
+        if (cuadrante4 != null) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void cuartoHijo(Nodo cuartoHijo) {
-        this.cuartoHijo = cuartoHijo;
+    public Nodo getCuadrante1() {
+        return cuadrante1;
     }
 
-    public Nodo getPrimerHijo() {
-        return primerHijo;
+    public Nodo getCuadrante2() {
+        return cuadrante2;
     }
 
-    public Nodo getSegundoHijo() {
-        return segundoHijo;
+    public Nodo getCuadrante3() {
+        return cuadrante3;
     }
 
-    public Nodo getTercerHijo() {
-        return tercerHijo;
+    public Nodo getCuadrante4() {
+        return cuadrante4;
     }
 
-    public Nodo getCuartoHijo() {
-        return cuartoHijo;
+    public void setCuadrante1(Nodo cuadrante1) {
+        value = true;
+        this.cuadrante1 = cuadrante1;
     }
 
+    public void setCuadrante2(Nodo cuadrante2) {
+        value = true;
+        this.cuadrante2 = cuadrante2;
+    }
+
+    public void setCuadrante3(Nodo cuadrante3) {
+        value = true;
+        this.cuadrante3 = cuadrante3;
+    }
+
+    public void setCuadrante4(Nodo cuadrante4) {
+        value = true;
+        this.cuadrante4 = cuadrante4;
+    }
+    
 }

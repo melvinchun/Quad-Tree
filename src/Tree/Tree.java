@@ -19,4 +19,16 @@ public class Tree {
         this.raiz = raiz;
     }
     
+    public void addCuadrante1(){
+        
+    }
+    public void addCuadrante2(){
+        
+    }
+    public void addCuadrante3(){
+        
+    }
+    public void addCuadrante4(){
+        
+    }
 }
