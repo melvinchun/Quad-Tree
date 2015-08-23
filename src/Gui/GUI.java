@@ -262,21 +262,21 @@ public class GUI extends javax.swing.JFrame {
                 B_run.setVisible(true);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar la imagen","ERROR",2);
+            JOptionPane.showMessageDialog(this, "Error al cargar la imagen", "ERROR", 2);
         }
 
     }//GEN-LAST:event_B_CargarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       intro.setVisible(false);
+        intro.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
-        if((int)profundidad.getValue()>0){
-          Arbol(bi,1,arbol.getRaiz());
-          System.out.println("Listo");  
-        }else{
-            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0","ERROR",2);
+        if ((int) profundidad.getValue() > 0) {
+            Arbol(bi, 1, arbol.getRaiz());
+            System.out.println("Listo");
+        } else {
+            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0", "ERROR", 2);
         }
     }//GEN-LAST:event_B_runActionPerformed
 
@@ -316,34 +316,33 @@ public class GUI extends javax.swing.JFrame {
     }
 
     void Arbol(BufferedImage image, int depth, Nodo raiz) {
-        try{
-            
-        
-        int temp = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
-        boolean cambio = false;
-        for (int i = 0; i < image.getWidth(); i++) {
-            for (int j = 0; j < image.getHeight(); j++) {
-                if (image.getRGB(i, j) != temp) {
-                    cambio = true;
+        try {
+            int temp = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
+            boolean cambio = false;
+            for (int i = 0; i < image.getWidth(); i++) {
+                for (int j = 0; j < image.getHeight(); j++) {
+                    if (image.getRGB(i, j) != temp) {
+                        cambio = true;
+                        break;
+                    }
+                }
+                if (cambio) {
                     break;
                 }
             }
-            if(cambio)
-                break;
-        }
-        if (cambio && depth < (int)profundidad.getValue()) {
-            raiz.setValue(true);
-            //PrimerCuadrante
-            Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth+1, raiz.getCuadrante1());
-            //SegundoCuadrante
-            Arbol(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante2());
-            //TercerCuadrante
-            Arbol(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante3());
-            //CuartoCuadante
-            Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
-        }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "ERROR 404-NOT FOUND","ERROR",2);
+            if (cambio && depth < (int) profundidad.getValue()) {
+                raiz.setValue(true);
+                //PrimerCuadrante
+                Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante1());
+                //SegundoCuadrante
+                Arbol(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante2());
+                //TercerCuadrante
+                Arbol(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante3());
+                //CuartoCuadante
+                Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ERROR 404-NOT FOUND", "ERROR", 2);
         }
     }
 
