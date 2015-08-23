@@ -4,7 +4,7 @@ public class Tree {
     private Nodo raiz;
     
     public Tree() {
-        this.raiz = null;
+        this.raiz = new Nodo();
     }
     
     public Tree(Nodo raiz) {
@@ -31,4 +31,5 @@ public class Tree {
     public void addCuadrante4(){
         
     }
+    
 }

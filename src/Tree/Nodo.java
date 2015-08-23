@@ -39,6 +39,12 @@ public class Nodo {
 
     public void setValue(boolean Value) {
         this.value = Value;
+        if(value==true){
+           this.cuadrante1 = new Nodo();
+           this.cuadrante2 = new Nodo();
+           this.cuadrante3 = new Nodo();
+           this.cuadrante4 = new Nodo(); 
+        }
     }
 
     public boolean hasCuadrante1() {

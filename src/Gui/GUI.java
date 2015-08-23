@@ -7,15 +7,12 @@ package Gui;
 
 import Tree.Nodo;
 import Tree.Tree;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.File;
-import static java.lang.Math.sqrt;
-import java.util.Random;
 import javax.imageio.ImageIO;
+;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -25,6 +22,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Brenda
  */
+
+
 public class GUI extends javax.swing.JFrame {
 
     private Object bufferedImage;
@@ -36,7 +35,6 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         bi = null;
         arbol = new Tree();
-        arbol.setRaiz(new Nodo(true));
     }
 
     /**
@@ -178,7 +176,8 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_B_CargarActionPerformed
 
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
-      Arbol(bi.getWidth(),bi.getHeight());
+        Arbol(bi,1,arbol.getRaiz());
+        System.out.println("Listo");
     }//GEN-LAST:event_B_runActionPerformed
 
     /**
@@ -216,16 +215,30 @@ public class GUI extends javax.swing.JFrame {
         });
     }
 
-    void Arbol(int x, int y) {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                if(bi.getRGB(i, j)==0);
-                System.out.println("negro");
+    void Arbol(BufferedImage image, int depth, Nodo raiz) {
+        int temp = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
+        boolean cambio = false;
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                if (image.getRGB(i, j) != temp) {
+                    cambio = true;
+                }
             }
         }
-        
+        if (cambio && depth < profundidad.getValue()) {
+            raiz.setValue(true);
+            //PrimerCuadrante
+            Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth, raiz.getCuadrante1());
+            //SegundoCuadrante
+            Arbol(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante1());
+            //TercerCuadrante
+            Arbol(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante3());
+            //CuartoCuadante
+            Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
+        }
+
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton B_Cargar;
     private javax.swing.JButton B_run;
@@ -235,6 +248,5 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JSlider profundidad;
     // End of variables declaration//GEN-END:variables
     BufferedImage bi;
-    int[][] pixeles;
     Tree arbol;
 }
