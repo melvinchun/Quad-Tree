@@ -343,7 +343,7 @@ public class GUI extends javax.swing.JFrame {
                     break;
                 }
             }
-            if (cambio && depth <= (int) profundidad.getValue()) {
+            if (cambio && depth <= (int) profundidad.getValue() && image.getWidth()>4 && image.getHeight()>4) {
                 raiz.setValue(true);
                 //PrimerCuadrante
                 Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante1());
@@ -355,7 +355,9 @@ public class GUI extends javax.swing.JFrame {
                 Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "ERROR 404-NOT FOUND", "ERROR", 2);
+            JOptionPane.showMessageDialog(this, "La profundidad es muy grande\n"
+                        + "Profundidad deseada: " + profundidad.getValue() +"\n"
+                        + "Profundidad maxima alcanzada: " + depth);
         }
     }
 
@@ -393,18 +395,22 @@ public class GUI extends javax.swing.JFrame {
                 image.setRGB(image.getWidth() / 2, i, colorRGB);
             }
         }
-        if (quadrant.getCuadrante1().isValue()) {
-            //.getSubimage(INICIO en X, INICIO en Y, ancho, alto)
-            cutImage(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante1());
-        }
-        if (quadrant.getCuadrante2().isValue()) {
-            cutImage(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante2());
-        }
-        if (quadrant.getCuadrante3().isValue()) {
-            cutImage(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante3());
-        }
-        if (quadrant.getCuadrante4().isValue()) {
-            cutImage(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante4());
+        try{
+            if (quadrant.getCuadrante1().isValue()) {
+                //.getSubimage(INICIO en X, INICIO en Y, ancho, alto)
+                cutImage(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante1());
+            }
+            if (quadrant.getCuadrante2().isValue()) {
+                cutImage(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante2());
+            }
+            if (quadrant.getCuadrante3().isValue()) {
+                cutImage(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante3());
+            }
+            if (quadrant.getCuadrante4().isValue()) {
+                cutImage(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante4());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ERROR AL GENERAR IMAGEN");
         }
     }
 
