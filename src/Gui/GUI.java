@@ -50,10 +50,10 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        profundidad = new javax.swing.JSlider();
         B_Cargar = new javax.swing.JButton();
         icono = new javax.swing.JLabel();
         B_run = new javax.swing.JButton();
+        profundidad = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,16 +61,6 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Avenir Next Condensed", 1, 18)); // NOI18N
         jLabel1.setText("Nivel de Profundidad");
-
-        profundidad.setMajorTickSpacing(1);
-        profundidad.setMaximum(10);
-        profundidad.setMinimum(1);
-        profundidad.setMinorTickSpacing(1);
-        profundidad.setPaintLabels(true);
-        profundidad.setPaintTicks(true);
-        profundidad.setSnapToTicks(true);
-        profundidad.setToolTipText("");
-        profundidad.setValue(1);
 
         B_Cargar.setFont(new java.awt.Font("Avenir Next Condensed", 1, 18)); // NOI18N
         B_Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/load-.png"))); // NOI18N
@@ -108,15 +98,14 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(121, 121, 121)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(B_run))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(138, 138, 138)
-                        .addComponent(B_Cargar)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(B_Cargar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(B_run))))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,9 +116,9 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(B_Cargar)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(B_run)
                 .addGap(43, 43, 43))
         );
@@ -178,7 +167,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_B_CargarActionPerformed
 
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
-      Arbol(bi.getWidth(),bi.getHeight());
+
     }//GEN-LAST:event_B_runActionPerformed
 
     /**
@@ -216,11 +205,13 @@ public class GUI extends javax.swing.JFrame {
         });
     }
 
-    void Arbol(int x, int y) {
+    void Arbol(int x, int y, int depth) {
+        if(depth<(int)profundidad.getValue()){
+            
+        }
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                if(bi.getRGB(i, j)==0);
-                System.out.println("negro");
+                
             }
         }
         
@@ -232,9 +223,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel icono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSlider profundidad;
+    private javax.swing.JSpinner profundidad;
     // End of variables declaration//GEN-END:variables
     BufferedImage bi;
-    int[][] pixeles;
     Tree arbol;
 }
