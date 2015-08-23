@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 ;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -33,6 +34,13 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents();
+        B_run.setVisible(false);
+        profundidad.setValue(1);
+        this.setLocationRelativeTo(null);
+        intro.pack();
+        intro.setModal(true);
+        intro.setLocationRelativeTo(this);
+        intro.setVisible(true);
         bi = null;
         arbol = new Tree();
     }
@@ -46,52 +54,139 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        intro = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        profundidad = new javax.swing.JSlider();
         B_Cargar = new javax.swing.JButton();
         icono = new javax.swing.JLabel();
         B_run = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        profundidad = new javax.swing.JSpinner();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Logo.png"))); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Krungthep", 1, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("FBI");
+
+        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setToolTipText("ffdfdfdf");
+
+        jTextArea1.setBackground(new java.awt.Color(0, 0, 0));
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Krungthep", 1, 18)); // NOI18N
+        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Este software fue creado por el Hexagono Hondureño\npara el analisis de contorno en imagenes.  Su es exlusivo\npara el FBI. ");
+        jTextArea1.setDragEnabled(false);
+        jTextArea1.setFocusable(false);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jButton1.setFont(new java.awt.Font("Krungthep", 1, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Avanzar");
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(255, 255, 255)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(220, 220, 220)
+                        .addComponent(jButton1)))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout introLayout = new javax.swing.GroupLayout(intro.getContentPane());
+        intro.getContentPane().setLayout(introLayout);
+        introLayout.setHorizontalGroup(
+            introLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        introLayout.setVerticalGroup(
+            introLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jLabel1.setFont(new java.awt.Font("Avenir Next Condensed", 1, 18)); // NOI18N
-        jLabel1.setText("Nivel de Profundidad");
-
-        profundidad.setMajorTickSpacing(1);
-        profundidad.setMaximum(10);
-        profundidad.setMinimum(1);
-        profundidad.setMinorTickSpacing(1);
-        profundidad.setPaintLabels(true);
-        profundidad.setPaintTicks(true);
-        profundidad.setSnapToTicks(true);
-        profundidad.setToolTipText("");
-        profundidad.setValue(1);
-
-        B_Cargar.setFont(new java.awt.Font("Avenir Next Condensed", 1, 18)); // NOI18N
+        B_Cargar.setFont(new java.awt.Font("Krungthep", 1, 18)); // NOI18N
+        B_Cargar.setForeground(new java.awt.Color(255, 255, 255));
         B_Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/load-.png"))); // NOI18N
         B_Cargar.setText("Cargar");
         B_Cargar.setBorderPainted(false);
         B_Cargar.setContentAreaFilled(false);
+        B_Cargar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/load--.png"))); // NOI18N
         B_Cargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 B_CargarActionPerformed(evt);
             }
         });
 
-        icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lupa-.png"))); // NOI18N
+        icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo-.png"))); // NOI18N
 
-        B_run.setFont(new java.awt.Font("Avenir Next Condensed", 1, 18)); // NOI18N
+        B_run.setFont(new java.awt.Font("Krungthep", 1, 18)); // NOI18N
+        B_run.setForeground(new java.awt.Color(255, 255, 255));
+        B_run.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lupa-.png"))); // NOI18N
         B_run.setText("Iniciar");
+        B_run.setBorder(null);
         B_run.setBorderPainted(false);
         B_run.setContentAreaFilled(false);
+        B_run.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lupa--.png"))); // NOI18N
         B_run.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 B_runActionPerformed(evt);
             }
         });
+
+        jLabel4.setFont(new java.awt.Font("Krungthep", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Nivel de Profundidad");
+
+        profundidad.setFont(new java.awt.Font("Krungthep", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -100,53 +195,51 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
+                        .addGap(100, 100, 100)
                         .addComponent(icono))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(B_run))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addComponent(B_Cargar)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addGap(68, 68, 68)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(B_Cargar)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(74, 74, 74)
+                                    .addComponent(B_run))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(icono)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addComponent(B_Cargar)
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(profundidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addComponent(B_run)
-                .addGap(43, 43, 43))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
+
+        jMenu1.setText("Opciones");
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -154,9 +247,8 @@ public class GUI extends javax.swing.JFrame {
 
     private void B_CargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_CargarActionPerformed
         try {
-
             JFileChooser jfc = new JFileChooser();
-            FileFilter filtro = new FileNameExtensionFilter("Imagenes", "PNG", "jpg", "jpeg", "gif");
+            FileFilter filtro = new FileNameExtensionFilter("Imagenes", "PNG", "jpg", "jpeg");
             jfc.setFileFilter(filtro);
             File archivo = null;
 
@@ -167,17 +259,25 @@ public class GUI extends javax.swing.JFrame {
                 img = Toolkit.getDefaultToolkit().createImage(archivo.getPath()).getScaledInstance(200, 200, 0);
                 this.icono.setIcon(new ImageIcon(img));
                 bi = ImageIO.read(archivo);
-                //byte[] pixels = ((DataBufferByte) bi.getRaster().getDataBuffer()).getData();
+                B_run.setVisible(true);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar la imagen","ERROR",2);
         }
 
     }//GEN-LAST:event_B_CargarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       intro.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
-        Arbol(bi,1,arbol.getRaiz());
-        System.out.println("Listo");
+        if((int)profundidad.getValue()>0){
+          Arbol(bi,1,arbol.getRaiz());
+          System.out.println("Listo");  
+        }else{
+            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0","ERROR",2);
+        }
     }//GEN-LAST:event_B_runActionPerformed
 
     /**
@@ -216,36 +316,53 @@ public class GUI extends javax.swing.JFrame {
     }
 
     void Arbol(BufferedImage image, int depth, Nodo raiz) {
+        try{
+            
+        
         int temp = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
         boolean cambio = false;
         for (int i = 0; i < image.getWidth(); i++) {
             for (int j = 0; j < image.getHeight(); j++) {
                 if (image.getRGB(i, j) != temp) {
                     cambio = true;
+                    break;
                 }
             }
+            if(cambio)
+                break;
         }
-        if (cambio && depth < profundidad.getValue()) {
+        if (cambio && depth < (int)profundidad.getValue()) {
             raiz.setValue(true);
             //PrimerCuadrante
-            Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth, raiz.getCuadrante1());
+            Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth+1, raiz.getCuadrante1());
             //SegundoCuadrante
-            Arbol(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante1());
+            Arbol(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante2());
             //TercerCuadrante
             Arbol(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante3());
             //CuartoCuadante
             Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
         }
-
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "ERROR 404-NOT FOUND","ERROR",2);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton B_Cargar;
     private javax.swing.JButton B_run;
     private javax.swing.JLabel icono;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JDialog intro;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSlider profundidad;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JSpinner profundidad;
     // End of variables declaration//GEN-END:variables
     BufferedImage bi;
     Tree arbol;

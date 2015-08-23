@@ -23,28 +23,29 @@ public class Bitmaps {
      */
     public static void main(String[] args) throws InterruptedException{
         //TAMAÑO DE LA IMAGEN
-        int sizeX = 2096;
-        int sizeY = 1025;
+        int sizeX = 1000;
+        int sizeY = 1000;
         //MIDE LA EFICIENCIA DEL PROGRAMA
         long start = System.nanoTime();
         //CREA UNA NUEVA IMAGEN
                                             //width, height, type
-        BufferedImage image= new BufferedImage(sizeX,sizeY,BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage image= new BufferedImage(sizeX,sizeY,BufferedImage.TYPE_3BYTE_BGR);
         
         //RELLANA TODA LA IMAGEN DE COLO BLANCO
+        int cont=-70000;
         for(int i = 0; i< sizeX; i++){
             long startSetRGB = System.nanoTime();
             for (int j = 0; j < sizeY; j++) {
-                image.setRGB(i, j, new Color(255,255,255).getRGB());//imagen en el pixel i,j con color Blanco
+                image.setRGB(i, j, cont++);//imagen en el pixel i,j con color Blanco
             }
             long endSetRGB = System.nanoTime();
             System.out.println("Tiempo para finalizar fila: " + (endSetRGB-startSetRGB)/1000 + "microseg");
         }
         //Metodo para cortar :') PROTOTIPO!
-        cutImage(image, Color.BLACK.getRGB(), 1);
+        /*cutImage(image, Color.BLACK.getRGB(), 1);
         cutImage(image, Color.BLACK.getRGB(), 2);
         cutImage(image, Color.BLACK.getRGB(), 3);
-        cutImage(image, Color.BLACK.getRGB(), 4);
+        cutImage(image, Color.BLACK.getRGB(), 4);*/
         
         //EXPORTA LA IMAGEN
         try {
