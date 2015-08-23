@@ -7,10 +7,13 @@ package Gui;
 
 import Tree.Nodo;
 import Tree.Tree;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 import javax.imageio.ImageIO;
 ;
 import javax.swing.ImageIcon;
@@ -255,28 +258,38 @@ public class GUI extends javax.swing.JFrame {
             int op = jfc.showOpenDialog(this);
             if (op == JFileChooser.APPROVE_OPTION) {
                 archivo = jfc.getSelectedFile();
-                Image img;
-                img = Toolkit.getDefaultToolkit().createImage(archivo.getPath()).getScaledInstance(200, 200, 0);
-                this.icono.setIcon(new ImageIcon(img));
                 bi = ImageIO.read(archivo);
+                bi = convertBufferedImageToGrayScale(bi);
+                Image img;
+                img = Toolkit.getDefaultToolkit().createImage(bi.getSource()).getScaledInstance(200, 200, 0);
+                this.icono.setIcon(new ImageIcon(img));
                 B_run.setVisible(true);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar la imagen","ERROR",2);
+            JOptionPane.showMessageDialog(this, "Error al cargar la imagen", "ERROR", 2);
+            e.printStackTrace();
         }
 
     }//GEN-LAST:event_B_CargarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       intro.setVisible(false);
+        intro.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
-        if((int)profundidad.getValue()>0){
-          Arbol(bi,1,arbol.getRaiz());
-          System.out.println("Listo");  
-        }else{
-            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0","ERROR",2);
+        if ((int) profundidad.getValue() > 0) {
+            Arbol(bi, 1, arbol.getRaiz());
+            System.out.println("Listo");
+            generada = createOpaqueColorImage(bi.getWidth(), bi.getHeight(), Color.LIGHT_GRAY.getRGB());
+            cutImage(generada, Color.BLACK.getRGB(), arbol.getRaiz());
+            try {
+                File outputfile = new File("./Imagenes Generadas/image.bmp");
+                ImageIO.write(generada, "bmp", outputfile);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0", "ERROR", 2);
         }
     }//GEN-LAST:event_B_runActionPerformed
 
@@ -316,37 +329,94 @@ public class GUI extends javax.swing.JFrame {
     }
 
     void Arbol(BufferedImage image, int depth, Nodo raiz) {
-        try{
-            
-        
-        int temp = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
-        boolean cambio = false;
-        for (int i = 0; i < image.getWidth(); i++) {
-            for (int j = 0; j < image.getHeight(); j++) {
-                if (image.getRGB(i, j) != temp) {
-                    cambio = true;
+        try {
+            int temp = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
+            boolean cambio = false;
+            for (int i = 0; i < image.getWidth(); i++) {
+                for (int j = 0; j < image.getHeight(); j++) {
+                    if (image.getRGB(i, j) != temp) {
+                        cambio = true;
+                        break;
+                    }
+                }
+                if (cambio) {
                     break;
                 }
             }
-            if(cambio)
-                break;
-        }
-        if (cambio && depth < (int)profundidad.getValue()) {
-            raiz.setValue(true);
-            //PrimerCuadrante
-            Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth+1, raiz.getCuadrante1());
-            //SegundoCuadrante
-            Arbol(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante2());
-            //TercerCuadrante
-            Arbol(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante3());
-            //CuartoCuadante
-            Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
-        }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "ERROR 404-NOT FOUND","ERROR",2);
+            if (cambio && depth <= (int) profundidad.getValue()) {
+                raiz.setValue(true);
+                //PrimerCuadrante
+                Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante1());
+                //SegundoCuadrante
+                Arbol(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante2());
+                //TercerCuadrante
+                Arbol(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante3());
+                //CuartoCuadante
+                Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ERROR 404-NOT FOUND", "ERROR", 2);
         }
     }
 
+    BufferedImage convertBufferedImageToGrayScale(BufferedImage external) {
+        if (external.getType() == BufferedImage.TYPE_BYTE_GRAY) {
+            System.out.println("Ya esta en blanco y negro");
+            return external;
+        }
+        int sizeX = external.getWidth();
+        int sizeY = external.getHeight();
+        BufferedImage retImg = new BufferedImage(sizeX, sizeY, BufferedImage.TYPE_BYTE_GRAY);
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                if (getAlpha(external, i, j) < 100) {
+                    retImg.setRGB(i, j, Color.WHITE.getRGB());
+                } else {
+                    retImg.setRGB(i, j, external.getRGB(i, j));
+                }
+            }
+        }
+        return retImg;
+    }
+
+    int getAlpha(BufferedImage image, int x, int y) {
+        Color pixel = new Color(image.getRGB(x, y), true);
+        return pixel.getAlpha();
+    }
+
+    void cutImage(BufferedImage image, int colorRGB, Nodo quadrant) {
+        if (quadrant.isValue()) {
+            for (int i = 0; i < image.getWidth(); i++) {
+                image.setRGB(i, image.getHeight() / 2, colorRGB);
+            }
+            for (int i = 0; i < image.getHeight(); i++) {
+                image.setRGB(image.getWidth() / 2, i, colorRGB);
+            }
+        }
+        if (quadrant.getCuadrante1().isValue()) {
+            //.getSubimage(INICIO en X, INICIO en Y, ancho, alto)
+            cutImage(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante1());
+        }
+        if (quadrant.getCuadrante2().isValue()) {
+            cutImage(image.getSubimage(0, 0, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante2());
+        }
+        if (quadrant.getCuadrante3().isValue()) {
+            cutImage(image.getSubimage(0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante3());
+        }
+        if (quadrant.getCuadrante4().isValue()) {
+            cutImage(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante4());
+        }
+    }
+
+    BufferedImage createOpaqueColorImage(int x, int y, int RGB) {
+        BufferedImage retImg = new BufferedImage(x, y, BufferedImage.TYPE_BYTE_GRAY);
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                retImg.setRGB(i, j, RGB);
+            }
+        }
+        return retImg;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton B_Cargar;
     private javax.swing.JButton B_run;
@@ -366,4 +436,5 @@ public class GUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     BufferedImage bi;
     Tree arbol;
+    BufferedImage generada;
 }
