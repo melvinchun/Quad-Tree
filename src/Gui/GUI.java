@@ -280,7 +280,6 @@ public class GUI extends javax.swing.JFrame {
         if ((int) profundidad.getValue() > 0) {
             Arbol(bi, 1, arbol.getRaiz());
             System.out.println("Listo");
-
             generada = createOpaqueColorImage(bi.getWidth(), bi.getHeight(), Color.LIGHT_GRAY.getRGB());
             cutImage(generada, Color.BLACK.getRGB(), arbol.getRaiz());
             try {
@@ -345,7 +344,6 @@ public class GUI extends javax.swing.JFrame {
                 }
             }
             if (cambio && depth <= (int) profundidad.getValue() && image.getWidth()>4 && image.getHeight()>4) {
-
                 raiz.setValue(true);
                 //PrimerCuadrante
                 Arbol(image.getSubimage(image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante1());
