@@ -39,43 +39,11 @@ public class Nodo {
 
     public void setValue(boolean Value) {
         this.value = Value;
-        if(value==true){
-           this.cuadrante1 = new Nodo();
-           this.cuadrante2 = new Nodo();
-           this.cuadrante3 = new Nodo();
-           this.cuadrante4 = new Nodo(); 
-        }
-    }
-
-    public boolean hasCuadrante1() {
-        if (cuadrante1 != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean hasCuadrante2() {
-        if (cuadrante2 != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean hasCuadrante3() {
-        if (cuadrante3 != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean hasCuadrante4() {
-        if (cuadrante4 != null) {
-            return true;
-        } else {
-            return false;
+        if (value == true) {
+            this.cuadrante1 = new Nodo();
+            this.cuadrante2 = new Nodo();
+            this.cuadrante3 = new Nodo();
+            this.cuadrante4 = new Nodo();
         }
     }
 
@@ -94,25 +62,4 @@ public class Nodo {
     public Nodo getCuadrante4() {
         return cuadrante4;
     }
-
-    public void setCuadrante1(Nodo cuadrante1) {
-        value = true;
-        this.cuadrante1 = cuadrante1;
-    }
-
-    public void setCuadrante2(Nodo cuadrante2) {
-        value = true;
-        this.cuadrante2 = cuadrante2;
-    }
-
-    public void setCuadrante3(Nodo cuadrante3) {
-        value = true;
-        this.cuadrante3 = cuadrante3;
-    }
-
-    public void setCuadrante4(Nodo cuadrante4) {
-        value = true;
-        this.cuadrante4 = cuadrante4;
-    }
-    
 }
