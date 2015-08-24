@@ -69,6 +69,9 @@ public class GUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        Progress = new javax.swing.JDialog();
+        jPanel5 = new javax.swing.JPanel();
+        ProBarEspera = new javax.swing.JProgressBar();
         jPanel1 = new javax.swing.JPanel();
         B_Cargar = new javax.swing.JButton();
         icono = new javax.swing.JLabel();
@@ -144,7 +147,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout introLayout = new javax.swing.GroupLayout(intro.getContentPane());
@@ -299,6 +302,42 @@ public class GUI extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        Progress.setTitle("Generando imagen en blanco y negro");
+        Progress.setAlwaysOnTop(true);
+        Progress.setBackground(new java.awt.Color(0, 0, 0));
+        Progress.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        Progress.setResizable(false);
+
+        jPanel5.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ProBarEspera, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addComponent(ProBarEspera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+        );
+
+        javax.swing.GroupLayout ProgressLayout = new javax.swing.GroupLayout(Progress.getContentPane());
+        Progress.getContentPane().setLayout(ProgressLayout);
+        ProgressLayout.setHorizontalGroup(
+            ProgressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ProgressLayout.setVerticalGroup(
+            ProgressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
@@ -408,26 +447,30 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_CargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_CargarActionPerformed
-        try {
-            JFileChooser jfc = new JFileChooser();
-            FileFilter filtro = new FileNameExtensionFilter("Imagenes", "PNG", "jpg", "jpeg");
-            jfc.setFileFilter(filtro);
-            File archivo = null;
+        new Thread(){
+            public void run(){
+                try {
+                    JFileChooser jfc = new JFileChooser();
+                    FileFilter filtro = new FileNameExtensionFilter("Imagenes", "PNG", "jpg", "jpeg");
+                    jfc.setFileFilter(filtro);
+                    File archivo = null;
 
-            int op = jfc.showOpenDialog(this);
-            if (op == JFileChooser.APPROVE_OPTION) {
-                archivo = jfc.getSelectedFile();
-                bi = ImageIO.read(archivo);
-                bi = convertBufferedImageToGrayScale(bi);
-                Image img;
-                img = Toolkit.getDefaultToolkit().createImage(bi.getSource()).getScaledInstance(200, 200, 0);
-                this.icono.setIcon(new ImageIcon(img));
-                B_run.setVisible(true);
+                    int op = jfc.showOpenDialog(null);
+                    if (op == JFileChooser.APPROVE_OPTION) {
+                        archivo = jfc.getSelectedFile();
+                        bi = ImageIO.read(archivo);
+                        bi = convertBufferedImageToGrayScale(bi);
+                        Image img;
+                        img = Toolkit.getDefaultToolkit().createImage(bi.getSource()).getScaledInstance(200, 200, 0);
+                        icono.setIcon(new ImageIcon(img));
+                        Progress.setVisible(false);
+                        B_run.setVisible(true);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error al cargar la imagen", "ERROR", 2);
+                }
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar la imagen", "ERROR", 2);
-        }
-
+        }.start();
     }//GEN-LAST:event_B_CargarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -443,14 +486,15 @@ public class GUI extends javax.swing.JFrame {
                         + "Profundidad maxima alcanzada: " + prof);
             }
             prof = 0;
-
             generada = createOpaqueColorImage(bi.getWidth(), bi.getHeight(), Color.LIGHT_GRAY.getRGB());
             cutImage(generada, Color.BLACK.getRGB(), arbol.getRaiz());
+            double ratio = generada.getWidth()/generada.getHeight();
+            int newWidth = 600;
             if (generada.getWidth() < 500 && generada.getHeight() < 500) {
                 Image img;
                 img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance(generada.getWidth(), generada.getHeight(), 0);
                 this.icono2.setIcon(new ImageIcon(img));
-            } else if (generada.getWidth() > 2000 && generada.getHeight() > 2000) {
+            }/*else if (generada.getWidth() > 2000 && generada.getHeight() > 2000) {
                 Image img;
                 img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance(generada.getWidth() / 4, generada.getHeight() / 4, 0);
                 this.icono2.setIcon(new ImageIcon(img));
@@ -458,14 +502,14 @@ public class GUI extends javax.swing.JFrame {
                 Image img;
                 img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance(generada.getWidth() / 3, generada.getHeight() / 3, 0);
                 this.icono2.setIcon(new ImageIcon(img));
-            } else {
+            }*/else {
                 Image img;
-                img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance(generada.getWidth() / 2, generada.getHeight() / 2, 0);
+                img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance((int)(newWidth), (int)(newWidth /ratio), 0);
                 this.icono2.setIcon(new ImageIcon(img));
             }
 
             resultado.pack();
-            resultado.setModal(true);
+            resultado.setModal(false);
             resultado.setLocationRelativeTo(this);
             resultado.setVisible(true);
         } else {
@@ -575,9 +619,16 @@ public class GUI extends javax.swing.JFrame {
         }
         int sizeX = external.getWidth();
         int sizeY = external.getHeight();
+        ProBarEspera.setMaximum(sizeX*sizeY);
+        ProBarEspera.setValue(0);
+        Progress.pack();
+        Progress.setLocationRelativeTo(this);
+        Progress.setVisible(true);
         BufferedImage retImg = new BufferedImage(sizeX, sizeY, BufferedImage.TYPE_BYTE_GRAY);
+        int proBarCont = 0;
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
+                ProBarEspera.setValue(++proBarCont);
                 if (getAlpha(external, i, j) < 100) {
                     retImg.setRGB(i, j, Color.WHITE.getRGB());
                 } else {
@@ -634,6 +685,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton B_Cargar;
     private javax.swing.JButton B_Exportar;
     private javax.swing.JButton B_run;
+    private javax.swing.JProgressBar ProBarEspera;
+    private javax.swing.JDialog Progress;
     private javax.swing.JLabel icono;
     private javax.swing.JLabel icono2;
     private javax.swing.JDialog instrucciones;
@@ -654,6 +707,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
