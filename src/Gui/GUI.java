@@ -621,6 +621,7 @@ public class GUI extends javax.swing.JFrame {
         int sizeY = external.getHeight();
         ProBarEspera.setMaximum(sizeX*sizeY);
         ProBarEspera.setValue(0);
+        Progress.setTitle("Convitiendo a escala de grises");
         Progress.pack();
         Progress.setLocationRelativeTo(this);
         Progress.setVisible(true);
