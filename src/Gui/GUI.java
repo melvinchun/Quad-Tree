@@ -488,7 +488,7 @@ public class GUI extends javax.swing.JFrame {
             prof = 0;
             generada = createOpaqueColorImage(bi.getWidth(), bi.getHeight(), Color.LIGHT_GRAY.getRGB());
             cutImage(generada, Color.BLACK.getRGB(), arbol.getRaiz());
-            double ratio = generada.getWidth()/generada.getHeight();
+            double ratio = 1.0*generada.getWidth()/generada.getHeight();
             int newWidth = 600;
             if (generada.getWidth() < 500 && generada.getHeight() < 500) {
                 Image img;
