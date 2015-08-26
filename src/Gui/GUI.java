@@ -457,7 +457,6 @@ public class GUI extends javax.swing.JFrame {
                     File archivo = null;
                     int op = jfc.showOpenDialog(null);
                     if (op == JFileChooser.APPROVE_OPTION) {
-                        sound("src/Sound/charge.wav");
                         archivo = jfc.getSelectedFile();
                         bi = ImageIO.read(archivo);
                         bi = convertBufferedImageToGrayScale(bi);
@@ -524,7 +523,7 @@ public class GUI extends javax.swing.JFrame {
             if (result == chooser.APPROVE_OPTION) {
                 File outputfile = new File(chooser.getSelectedFile() + ".bmp");
                 ImageIO.write(generada, "bmp", outputfile);
-                sound("src/Sound/error.wav");
+                sound("src/Sound/pop.wav");
                 JOptionPane.showMessageDialog(resultado, "Archivo guardado exitosamente", "Guardado", 1);
             }
         } catch (Exception e) {
