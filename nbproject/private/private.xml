@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/Brenda/NetBeansProjects/Quad-Tree/src/Tree/Tree.java</file>
-            <file>file:/Users/Brenda/NetBeansProjects/Quad-Tree/src/Gui/GUI.java</file>
+            <file>file:/home/guitartsword/NetBeansProjects/EstructuraQuadTreeImagen/src/Gui/GUI.java</file>
+            <file>file:/home/guitartsword/NetBeansProjects/EstructuraQuadTreeImagen/src/Tree/Nodo.java</file>
+            <file>file:/home/guitartsword/NetBeansProjects/EstructuraQuadTreeImagen/src/Tree/Tree.java</file>
         </group>
     </open-files>
 </project-private>
