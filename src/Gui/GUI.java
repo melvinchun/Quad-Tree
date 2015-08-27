@@ -14,11 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import Sound.Sounds;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -303,7 +299,6 @@ public class GUI extends javax.swing.JFrame {
         );
 
         Progress.setTitle("Generando imagen en blanco y negro");
-        Progress.setAlwaysOnTop(true);
         Progress.setBackground(new java.awt.Color(0, 0, 0));
         Progress.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         Progress.setResizable(false);
@@ -378,6 +373,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel4.setText("Nivel de Profundidad");
 
         profundidad.setFont(new java.awt.Font("Krungthep", 1, 14)); // NOI18N
+        profundidad.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), null, Integer.valueOf(99), Integer.valueOf(1)));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -447,7 +443,8 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void B_CargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_CargarActionPerformed
-        sound("src/Sound/push.wav");
+        //sound("src/Sound/push.wav");
+        Sounds.push.play();
         new Thread() {
             public void run() {
                 try {
@@ -465,9 +462,10 @@ public class GUI extends javax.swing.JFrame {
                         icono.setIcon(new ImageIcon(img));
                         Progress.setVisible(false);
                         B_run.setVisible(true);
-                        sound("src/Sound/ding.wav");
+                        Sounds.ding.play();
                     }
                 } catch (Exception e) {
+                    Sounds.error.play();
                     JOptionPane.showMessageDialog(null, "Error al cargar la imagen", "ERROR", 2);
                 }
             }
@@ -475,16 +473,16 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_B_CargarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        sound("src/Sound/push.wav");
+        Sounds.push.play();
         intro.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
-        sound("src/Sound/push.wav");
-        if ((int) profundidad.getValue() > 0) {
+        Sounds.push.play();
+        if ((int) profundidad.getValue() >= 0) {
             Arbol(bi, 1, arbol.getRaiz());
             if (prof < (int) profundidad.getValue()) {
-                sound("src/Sound/pop.wav");
+                Sounds.pop.play();
                 JOptionPane.showMessageDialog(this, "La profundidad es muy grande\n"
                         + "Profundidad deseada: " + profundidad.getValue() + "\n"
                         + "Profundidad maxima alcanzada: " + prof);
@@ -509,13 +507,13 @@ public class GUI extends javax.swing.JFrame {
             resultado.setLocationRelativeTo(this);
             resultado.setVisible(true);
         } else {
-            sound("src/Sound/error.wav");
-            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0", "ERROR", 2);
+            Sounds.error.play();
+            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0 o 0", "ERROR", 2);
         }
     }//GEN-LAST:event_B_runActionPerformed
 
     private void B_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_ExportarActionPerformed
-        sound("src/Sound/push.wav");
+        Sounds.push.play();
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Especifique un Nombre");
         int result = chooser.showSaveDialog(resultado);
@@ -523,17 +521,17 @@ public class GUI extends javax.swing.JFrame {
             if (result == chooser.APPROVE_OPTION) {
                 File outputfile = new File(chooser.getSelectedFile() + ".bmp");
                 ImageIO.write(generada, "bmp", outputfile);
-                sound("src/Sound/pop.wav");
+                Sounds.pop.play();
                 JOptionPane.showMessageDialog(resultado, "Archivo guardado exitosamente", "Guardado", 1);
             }
         } catch (Exception e) {
-            sound("src/Sound/error.wav");
+            Sounds.error.play();
             JOptionPane.showMessageDialog(resultado, "Error al guardar la imagen", "ERROR", 2);
         }
     }//GEN-LAST:event_B_ExportarActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        sound("src/Sound/push.wav");
+        Sounds.push.play();
         instrucciones.pack();
         instrucciones.setModal(true);
         instrucciones.setLocationRelativeTo(this);
@@ -541,7 +539,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        sound("src/Sound/push.wav");
+        Sounds.push.play();
         instrucciones.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -577,19 +575,6 @@ public class GUI extends javax.swing.JFrame {
         });
     }
 
-    void sound(String file) {
-        try {
-            AudioInputStream audioInputStream;
-            audioInputStream = AudioSystem.getAudioInputStream(new File(file).getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException ex) {
-        } catch (LineUnavailableException ex) {
-        } catch (IOException ex) {
-        }
-    }
-
     void Arbol(BufferedImage image, int depth, Nodo raiz) {
         try {
             int temp = image.getRGB(image.getWidth() - 1, image.getHeight() - 1);
@@ -620,7 +605,7 @@ public class GUI extends javax.swing.JFrame {
                 Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
             }
         } catch (Exception e) {
-            sound("src/Sound/error.wav");
+            Sounds.error.play();
             JOptionPane.showMessageDialog(this, "La profundidad es muy grande\n"
                     + "Profundidad deseada: " + profundidad.getValue() + "\n"
                     + "Profundidad maxima alcanzada: " + depth);
@@ -684,8 +669,14 @@ public class GUI extends javax.swing.JFrame {
             if (quadrant.getCuadrante4().isValue()) {
                 cutImage(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante4());
             }
-        } catch (Exception e) {
-            sound("src/Sound/error.wav");
+        } catch (NullPointerException nullErr){
+            Sounds.error.play();
+            JOptionPane.showMessageDialog(this, "NO GENERO DIVISIONES", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+        }catch (StackOverflowError e) {
+            Sounds.error.play();
+            JOptionPane.showMessageDialog(this, "SU RAM NO PERMITE MAS CORTES", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+        }catch (Exception e) {
+            Sounds.error.play();
             JOptionPane.showMessageDialog(this, "ERROR AL GENERAR IMAGEN");
         }
     }
