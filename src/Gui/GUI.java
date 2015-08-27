@@ -68,6 +68,7 @@ public class GUI extends javax.swing.JFrame {
         Progress = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
         ProBarEspera = new javax.swing.JProgressBar();
+        text_infoTxt = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         B_Cargar = new javax.swing.JButton();
         icono = new javax.swing.JLabel();
@@ -305,21 +306,30 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(0, 0, 0));
 
+        text_infoTxt.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        text_infoTxt.setForeground(new java.awt.Color(180, 180, 180));
+        text_infoTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        text_infoTxt.setText("NULL");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(ProBarEspera, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ProBarEspera, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addComponent(text_infoTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ProBarEspera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(text_infoTxt)
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout ProgressLayout = new javax.swing.GroupLayout(Progress.getContentPane());
@@ -480,35 +490,49 @@ public class GUI extends javax.swing.JFrame {
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
         Sounds.push.play();
         if ((int) profundidad.getValue() >= 0) {
-            Arbol(bi, 1, arbol.getRaiz());
-            if (prof < (int) profundidad.getValue()) {
-                Sounds.pop.play();
-                JOptionPane.showMessageDialog(this, "La profundidad es muy grande\n"
-                        + "Profundidad deseada: " + profundidad.getValue() + "\n"
-                        + "Profundidad maxima alcanzada: " + prof);
-            }
-            prof = 0;
-            generada = createOpaqueColorImage(bi.getWidth(), bi.getHeight(), Color.LIGHT_GRAY.getRGB());
-            cutImage(generada, Color.BLACK.getRGB(), arbol.getRaiz());
-            double ratio = 1.0 * generada.getWidth() / generada.getHeight();
-            int newWidth = 600;
-            if (generada.getWidth() < 500 && generada.getHeight() < 500) {
-                Image img;
-                img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance(generada.getWidth(), generada.getHeight(), 0);
-                this.icono2.setIcon(new ImageIcon(img));
-            } else {
-                Image img;
-                img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance((int) (newWidth), (int) (newWidth / ratio), 0);
-                this.icono2.setIcon(new ImageIcon(img));
-            }
+            new Thread() {
+                public void run() {
+                    ProBarEspera.setVisible(false);
+                    Progress.setTitle("Generando Arbol");
+                    text_infoTxt.setText("Generando Arbol, espere.......");
+                    Progress.pack();
+                    Progress.setVisible(true);
+                    Arbol(bi, 1, arbol.getRaiz());
+                    if (prof < (int) profundidad.getValue()) {
+                        Sounds.pop.play();
+                        JOptionPane.showMessageDialog(null, "La profundidad es muy grande\n"
+                                + "Profundidad deseada: " + profundidad.getValue() + "\n"
+                                + "Profundidad maxima alcanzada: " + prof);
+                    }
+                    prof = 0;
+                    Progress.setTitle("Generando Imagen");
+                    text_infoTxt.setText("Generando Imagen, espere........");
+                    generada = createOpaqueColorImage(bi.getWidth(), bi.getHeight(), Color.LIGHT_GRAY.getRGB());
+                    cutImage(generada, Color.BLACK.getRGB(), arbol.getRaiz());
+                    double ratio = 1.0 * generada.getWidth() / generada.getHeight();
+                    int newWidth = 600;
+                    if (generada.getWidth() < 500 && generada.getHeight() < 500) {
+                        Image img;
+                        img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance(generada.getWidth(), generada.getHeight(), 0);
+                        icono2.setIcon(new ImageIcon(img));
+                    } else {
+                        Image img;
+                        img = Toolkit.getDefaultToolkit().createImage(generada.getSource()).getScaledInstance((int) (newWidth), (int) (newWidth / ratio), 0);
+                        icono2.setIcon(new ImageIcon(img));
+                    }
+                    Progress.setVisible(false);
+                    ProBarEspera.setVisible(true);
+                    resultado.pack();
+                    resultado.setModal(false);
+                    Sounds.error.play();
+                    resultado.setLocationRelativeTo(null);
+                    resultado.setVisible(true);
+                }
 
-            resultado.pack();
-            resultado.setModal(false);
-            resultado.setLocationRelativeTo(this);
-            resultado.setVisible(true);
+            }.start();
         } else {
             Sounds.error.play();
-            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0 o 0", "ERROR", 2);
+            JOptionPane.showMessageDialog(this, "Profundidad debe moyor igual a 0", "ERROR", 2);
         }
     }//GEN-LAST:event_B_runActionPerformed
 
@@ -604,13 +628,16 @@ public class GUI extends javax.swing.JFrame {
                 //CuartoCuadante
                 Arbol(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), depth + 1, raiz.getCuadrante4());
             }
+        } catch (NullPointerException e) {
+            Sounds.error.play();
+            JOptionPane.showMessageDialog(this, "NO GENERO DIVISIONES", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+        } catch (StackOverflowError e) {
+            Sounds.error.play();
+            JOptionPane.showMessageDialog(this, "SU RAM NO PERMITE MAS CORTES", "Advertencia!", JOptionPane.WARNING_MESSAGE);
         } catch (Exception e) {
             Sounds.error.play();
-            JOptionPane.showMessageDialog(this, "La profundidad es muy grande\n"
-                    + "Profundidad deseada: " + profundidad.getValue() + "\n"
-                    + "Profundidad maxima alcanzada: " + depth);
+            JOptionPane.showMessageDialog(this, "ERROR AL GENERAR IMAGEN");
         }
-
     }
 
     BufferedImage convertBufferedImageToGrayScale(BufferedImage external) {
@@ -624,6 +651,7 @@ public class GUI extends javax.swing.JFrame {
         ProBarEspera.setValue(0);
         Progress.setTitle("Convitiendo a escala de grises");
         Progress.pack();
+        text_infoTxt.setText(null);
         Progress.setLocationRelativeTo(this);
         Progress.setVisible(true);
         BufferedImage retImg = new BufferedImage(sizeX, sizeY, BufferedImage.TYPE_BYTE_GRAY);
@@ -669,13 +697,13 @@ public class GUI extends javax.swing.JFrame {
             if (quadrant.getCuadrante4().isValue()) {
                 cutImage(image.getSubimage(image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2), colorRGB, quadrant.getCuadrante4());
             }
-        } catch (NullPointerException nullErr){
+        } catch (NullPointerException nullErr) {
             Sounds.error.play();
             JOptionPane.showMessageDialog(this, "NO GENERO DIVISIONES", "Advertencia!", JOptionPane.WARNING_MESSAGE);
-        }catch (StackOverflowError e) {
+        } catch (StackOverflowError e) {
             Sounds.error.play();
             JOptionPane.showMessageDialog(this, "SU RAM NO PERMITE MAS CORTES", "Advertencia!", JOptionPane.WARNING_MESSAGE);
-        }catch (Exception e) {
+        } catch (Exception e) {
             Sounds.error.play();
             JOptionPane.showMessageDialog(this, "ERROR AL GENERAR IMAGEN");
         }
@@ -723,6 +751,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JSpinner profundidad;
     private javax.swing.JDialog resultado;
+    private javax.swing.JLabel text_infoTxt;
     // End of variables declaration//GEN-END:variables
     BufferedImage bi;
     Tree arbol;
