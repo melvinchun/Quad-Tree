@@ -12,9 +12,9 @@ package Sound;
 import java.applet.Applet;
 import java.applet.AudioClip;
 public class Sounds {
-    public static final AudioClip boom = Applet.newAudioClip(Sounds.class.getResource("Boom.wav"));
-    public static final AudioClip charge = Applet.newAudioClip(Sounds.class.getResource("charge.wav"));
+    
     public static final AudioClip ding = Applet.newAudioClip(Sounds.class.getResource("ding.wav"));
+    public static final AudioClip save = Applet.newAudioClip(Sounds.class.getResource("save.wav"));
     public static final AudioClip error = Applet.newAudioClip(Sounds.class.getResource("error.wav"));
     public static final AudioClip pop = Applet.newAudioClip(Sounds.class.getResource("pop.wav"));
     public static final AudioClip push = Applet.newAudioClip(Sounds.class.getResource("push.wav"));

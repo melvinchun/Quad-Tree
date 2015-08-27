@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import Sound.Sounds;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -479,7 +481,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void B_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_runActionPerformed
         Sounds.push.play();
-        if ((int) profundidad.getValue() >= 0) {
+        if ((int) profundidad.getValue() > 0) {
             Arbol(bi, 1, arbol.getRaiz());
             if (prof < (int) profundidad.getValue()) {
                 Sounds.pop.play();
@@ -508,12 +510,12 @@ public class GUI extends javax.swing.JFrame {
             resultado.setVisible(true);
         } else {
             Sounds.error.play();
-            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0 o 0", "ERROR", 2);
+            JOptionPane.showMessageDialog(this, "Profundidad debe ser mayor a 0 ", "ERROR", 2);
         }
     }//GEN-LAST:event_B_runActionPerformed
 
     private void B_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_ExportarActionPerformed
-        Sounds.push.play();
+        Sounds.save.play();
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Especifique un Nombre");
         int result = chooser.showSaveDialog(resultado);
